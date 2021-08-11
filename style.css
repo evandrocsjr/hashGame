@@ -34,6 +34,8 @@ body{
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    font-size: 30pt;
+    height: 100px;
 }
 
 .r{
