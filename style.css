@@ -7,6 +7,7 @@
 
 h1{
     text-align: center;
+    margin-bottom: 20px
 }
 
 body{
@@ -28,12 +29,23 @@ body{
 }
 
 .item{
-    margin-top: 30px;
-    margin-bottom: 30px;
     width: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+}
+
+.r{
+    border-right: solid 1px white;
+}
+
+.b{
+    border-bottom: solid 1px white
+}
+
+.item:hover{
+    background-color: silver
 }
 
 .infoGeral{
@@ -41,4 +53,25 @@ body{
     align-items: center;
     justify-content: center;
     text-align:center
+}
+
+.infoGeral{
+    border: dashed white 1px;
+    border-radius: 10px;
+    width: 300px;
+    height: 70px;
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr)
+}
+
+
+.reset{
+    margin-top: 20px;
+    width: 100px;
+    height: 40px;
+    background-color: transparent;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
 }
