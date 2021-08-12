@@ -1,115 +1,115 @@
-// Inicial Data
-let square = {
+// Dados
+
+let quadro = {
     a1: '', a2: '', a3: '',
     b1: '', b2: '', b3: '',
     c1: '', c2: '', c3: ''
 }
-let player = ''
+
+
 let warning = ''
+let play = ''
 let playing = false
 
 reset()
-
-// Events
+// Eventos
 document.querySelector('.reset').addEventListener('click', reset)
-document.querySelectorAll('.item').forEach(item =>{ // PERCORRE TODAS CLASSES E ADICIONA EVENTO EM TODAS
-    item.addEventListener('click', itemClick )
+document.querySelectorAll('.item').forEach(event => {
+    event.addEventListener('click', (e) =>{
+        let loc = e.target.getAttribute('data-area')
+
+        if(playing && quadro[loc] === ''){
+            quadro[loc] = play
+            renderQuadro()
+            togglePlayer()
+        }
+    })
 })
 
-// Functions
-function itemClick(event){
-    let item = event.target.getAttribute('data-area')
-    if(playing && square[item] === ''){
-        square[item] = player
-        renderSquare()
-        togglePlayer()
-   }
-}
+// Funções
 
 function reset(){
     warning = ''
 
+    // setar jogador que irá iniciar
     let random = Math.floor(Math.random() * 2)
-    player = (random === 0) ? 'x' : 'o'
+    play = random === 0 ? 'x' : 'o'
 
-    
-    for(let i in square){
-        square[i] = ''
+    // limpar quadro
+    for(let i in quadro){
+        quadro[i] = ''
     }
+
+    renderQuadro()
+    renderInfo()
 
     playing = true
-
-    renderSquare()
-    renderInformation()
 }
 
-function renderSquare(){
-    for(let i in square){
-        let position = document.querySelector(`div[data-area="${i}"]`)
-        if(square[i] !== '') {
-            position.innerHTML = square[i];
-        } else {
-            position.innerHTML = '';
+function renderQuadro(){
+    for(let i in quadro){
+        let item = document.querySelector(`div[data-area="${i}"]`)
+        if(quadro[i] !== ''){
+            item.innerHTML = quadro[i]
+        }else{
+            item.innerHTML = ''
         }
-        checkGame()
     }
+    checkGame()
+    renderInfo()
 }
 
-function renderInformation(){ // PARA EXIBIR NA TELA
-    document.querySelector('.infoCorpoVez').innerHTML = player
+function renderInfo(){
     document.querySelector('.infoCorpoResultado').innerHTML = warning
-
+    document.querySelector('.infoCorpoVez').innerHTML = play
 }
 
-function togglePlayer(){ // ALTERNA ENTRE OS PLAYERS
-    player = player === 'x' ? 'o' : 'x'
-    renderInformation()
+function togglePlayer(){
+    play = play === 'x' ? 'o' : 'x'
+    renderInfo()
 }
 
 function checkGame(){
-    if(checkWinnerGame('x')){
+    if( checkWinner('x') ){
         warning = 'O "x" venceu.'
         playing = false
-    }else if(checkWinnerGame('o')){
+    }else if( checkWinner('o') ){
         warning = 'O "o" venceu.'
         playing = false
     }else if(isFull()){
-        warning = 'Deu empate'
+        warning = 'Deu empate.'
         playing = false
     }
 }
 
-function checkWinnerGame(player){
+function checkWinner(e){
     let pos = [
-        'a1,b1,c1',
-        'a2,b2,c2',
-        'a3,b3,c3',
-
         'a1,a2,a3',
         'b1,b2,b3',
         'c1,c2,c3',
+
+        'a1,b1,c1',
+        'a2,b2,c2',
+        'a3,b3,c3',
 
         'a1,b2,c3',
         'a3,b2,c1'
     ]
 
-    for(let i in player){
-        let pArray = pos[i].split(',')
-        let hasWon = pArray.every( option => square[option] === player)
-        if(hasWon){
-            return true
-        }
+    for(let i in pos){
+        let posArray = pos[i].split(',')
+        let hasWon = posArray.every( option => quadro[option] === e)
+        if(hasWon) return true
     }
-
     return false
 }
 
 function isFull(){
-    for(let i in square){
-        if(square[i] === ''){
+    
+    for(let i in quadro){
+        if(quadro[i] === ''){
             return false
         }
     }
-
     return true
 }
